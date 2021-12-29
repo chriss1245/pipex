@@ -6,7 +6,7 @@
 #    By: cmanzano <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/11 13:32:23 by cmanzano          #+#    #+#              #
-#    Updated: 2021/12/28 20:04:43 by cmanzano         ###   ########.fr        #
+#    Updated: 2021/12/29 11:35:23 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ INC_DIR = inc
 # SOURCE FILES
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = 	pipex.c
+SRC = 	main.c
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ))
 
@@ -50,7 +50,6 @@ LIBFT = libft.a
 LIBFT_DIR = libft
 
 all:  init_submodules $(OBJ_DIR) $(NAME)
-	@$(GREEN) Done! $(RESET)
 
 init_submodules:
 	@if [ ! -f "$(LIBFT_DIR)/Makefile" ]; then\
@@ -58,10 +57,15 @@ init_submodules:
 		git submodule update --init --recursive;\
 	fi
 
-$(NAME): $(OBJS)
+$(NAME): $(LIBFT_DIR)/$(LIBFT) $(OBJS)
+	@$(BLUE) Compiling objects with the $(LIBFT_DIR)/$(LIBFT) into $(NAME) $(RESET)
+	@$(CC) $(CFLAGS) $(LIBFT_DIR)/$(LIBFT) $(OBJS) -o $(NAME)
+	@$(GREEN) Done! $(RESET)
+
+$(LIBFT_DIR)/$(LIBFT): init_submodules
+	@make -sC $(LIBFT_DIR)
 	@$(ECHO)
-	@$(PURPLE) Compiling $(NAME) $(RESET)
-	@$(CC) $(CFLAGS) $(LIBFT_DIR)/$(LIBFT) $< -o $(NAME)
+	@$(PURPLE)COMPILING $(NAME) $(RESET)
 
 debug: $(OBJS)
 	@$(ECHO)
