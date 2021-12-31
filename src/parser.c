@@ -6,13 +6,11 @@
 /*   By: cmanzano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 20:01:52 by cmanzano          #+#    #+#             */
-/*   Updated: 2021/12/29 17:12:31 by cmanzano         ###   ########.fr       */
+/*   Updated: 2021/12/29 19:48:31 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
-
-static void free_all(t_command *cmds, int n);
 
 static void deep_free(char **matrix)
 {
@@ -27,47 +25,6 @@ static void deep_free(char **matrix)
 	free(matrix);
 }
 
-t_command	*command_parser(int nargs, char **vargs, char *path, char **env)
-{
-	char		**paths;
-	int			i;
-	char		*aux;
-	char		**cmd;
-	t_command	*cmds;
-	int			j;
-
-	cmds = (t_command *) ft_calloc(nargs - 3, sizeof(t_command));
-	paths = ft_split(path, ':');
-	i = 2;
-	while (i < nargs - 1)
-	{
-		cmd = ft_split(vargs[i], ' ');
-		j = 0;
-		
-		cmds[i - 2].vargs = cmd;
-		cmds[i - 2].env = env;
-		aux = ft_strjoin("/", cmd[0]);
-		cmds[i - 2].cmd = ft_strjoin(paths[j], aux);
-		while (access(cmds[i - 2].cmd, X_OK) == -1 && paths[j])
-		{
-			free(cmds[i - 2].cmd);
-			j++;
-			cmds[i - 2].cmd = ft_strjoin(paths[j], aux);
-		}
-		free(aux);
-		if (!paths[j])
-		{
-			deep_free(paths);
-			free_all(cmds, i - 1);
-			perror(0);
-			return (0);
-		}
-		i++;
-	}
-	deep_free(paths);
-	return (cmds);
-}
-
 static void free_all(t_command *cmds, int n)
 {
 	int	i;
@@ -80,4 +37,43 @@ static void free_all(t_command *cmds, int n)
 		i++;
 	}
 	free(cmds);
+}
+
+t_command	*command_parser(int nargs, char **vargs, char **env)
+{
+	char		**paths;
+	t_auxiliar	aux;
+	char		**cmd;
+	t_command	*cmds;
+
+	cmds = (t_command *) ft_calloc(nargs - 3, sizeof(t_command));
+	paths = ft_split(get_environ_val(env, "PATH"), ':');
+	aux.i = 2;
+	while (aux.i < nargs - 1)
+	{
+		cmd = ft_split(vargs[aux.i], ' ');
+		aux.j = 0;
+		
+		cmds[aux.i - 2].vargs = cmd;
+		cmds[aux.i - 2].env = env;
+		aux.str = ft_strjoin("/", cmd[0]);
+		cmds[aux.i - 2].cmd = ft_strjoin(paths[aux.j], aux.str);
+		while (access(cmds[aux.i - 2].cmd, X_OK) == -1 && paths[aux.j])
+		{
+			free(cmds[aux.i - 2].cmd);
+			aux.j++;
+			cmds[aux.i - 2].cmd = ft_strjoin(paths[aux.j], aux.str);
+		}
+		free(aux.str);
+		if (!paths[aux.j])
+		{
+			deep_free(paths);
+			free_all(cmds, aux.i - 1);
+			perror(0);
+			return (0);
+		}
+		aux.i++;
+	}
+	deep_free(paths);
+	return (cmds);
 }

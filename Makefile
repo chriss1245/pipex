@@ -6,7 +6,7 @@
 #    By: cmanzano <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/11 13:32:23 by cmanzano          #+#    #+#              #
-#    Updated: 2021/12/29 11:35:23 by chris            ###   ########.fr        #
+#    Updated: 2021/12/30 20:44:22 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ INC_DIR = inc
 # SOURCE FILES
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = 	main.c
+SRC = 	main.c utils.c parser.c
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ))
 
@@ -59,7 +59,7 @@ init_submodules:
 
 $(NAME): $(LIBFT_DIR)/$(LIBFT) $(OBJS)
 	@$(BLUE) Compiling objects with the $(LIBFT_DIR)/$(LIBFT) into $(NAME) $(RESET)
-	@$(CC) $(CFLAGS) $(LIBFT_DIR)/$(LIBFT) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)/$(LIBFT) -o $(NAME)
 	@$(GREEN) Done! $(RESET)
 
 $(LIBFT_DIR)/$(LIBFT): init_submodules
