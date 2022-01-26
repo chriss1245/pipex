@@ -61,16 +61,16 @@ int main(int nargs, char **vargs, char **env)
 			execve(cmds[temp.i + 1].cmd, cmds[temp.i + 1].vargs, env);
 			write(2, "error", 5);
 		}
+		ft_printf("Imprime \n");
 		temp.i++;
 	}
 
 	pid = fork();
-	close(pipes[1][1]);
+
 	if (pid)
 	{
-		close(pipes[0][0]);
+
 		close(pipes[temp.i][1]);
-		
 		wait(&pid);
 		close(fd[0]);
 		close(fd[1]);
@@ -81,10 +81,8 @@ int main(int nargs, char **vargs, char **env)
 			write(2, "error dup pipes stdin", 21);
 		if(dup2(fd[1], 1)<0)
 			write(2, "error dup fd stdin", 18);
-		close(pipes[0][1]);
-		close(pipes[1][1]);
-		close(pipes[1][0]);
 		close(fd[1]);
+		close(pipes[temp.i][1]);
 		execve(cmds[1].cmd, cmds[1].vargs, env);
 		write(2, "error", 5);
 	}
