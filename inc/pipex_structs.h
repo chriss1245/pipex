@@ -1,22 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmanzano <cmanzano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 19:59:19 by cmanzano          #+#    #+#             */
-/*   Updated: 2022/05/28 16:16:46 by cmanzano         ###   ########.fr       */
+/*   Updated: 2022/05/28 13:41:24 by cmanzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include "../libft/inc/libft.h"
-# include <sys/wait.h>
-# include <string.h>
-# include <stdio.h>
-# include <errno.h>
+#ifndef PIPEX_STRUCTS_H
+# define PIPEX_STRUCTS_H
 
 typedef struct s_command 
 {
@@ -35,8 +30,11 @@ typedef struct s_auxiliar
 	char	c;
 } t_auxiliar;
 
-char		*get_environ_val(char **env, char *var);
-t_command	*command_parser(int nargs, char **vargs, char **env);
-int			pipex(t_command *cmds, int nargs, int *fd);
-int			close_pipe(int *pipefd);
+typedef struct s_pipe
+{
+	int	in;
+	int	out;
+	int	**pipes;
+} t_pipe;
+
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmanzano <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: cmanzano <cmanzano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/11 13:32:23 by cmanzano          #+#    #+#              #
-#    Updated: 2021/12/30 20:44:22 by chris            ###   ########.fr        #
+#    Updated: 2022/05/28 14:15:42 by cmanzano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ INC_DIR = inc
 # SOURCE FILES
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = 	main.c utils.c parser.c
+SRC = 	main.c utils.c parser.c pipex.c
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_DIR)/, $(OBJ))
 

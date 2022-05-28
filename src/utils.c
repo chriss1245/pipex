@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <cmanzano@student.42Madrid.com>      +#+  +:+       +#+        */
+/*   By: cmanzano <cmanzano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:20:00 by chris             #+#    #+#             */
-/*   Updated: 2021/12/29 19:44:00 by chris            ###   ########.fr       */
+/*   Updated: 2022/05/28 13:46:38 by cmanzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,11 @@ char	*get_environ_val(char **environ, char *var)
 	val = ft_strjoin("", temp2 + ft_strlen(temp));
 	free(temp);
 	return (val);
+}
+
+int close_pipe(int *pipefd)
+{
+	close(pipefd[0]);
+	close(pipefd[1]);
+	return (0);
 }
