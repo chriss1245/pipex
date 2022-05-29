@@ -23,7 +23,7 @@ static void	parent_pipe(int *pipefd)
 // makis the piping for the child process
 static void child_pipe(int *pipefd, int counter, int *fd, int ncmds)
 {
-	if (counter == 0)
+	if (counter == 0 && !fd[0])
 		dup2(fd[0], 0);
 	if (counter == ncmds - 1)
 		dup2(fd[1], 1);
@@ -31,7 +31,9 @@ static void child_pipe(int *pipefd, int counter, int *fd, int ncmds)
 	{
 		dup2(pipefd[1], 1);
 	}
-	close_pipe(fd);
+	close(fd[1]);
+	if (fd[0])
+		close(fd[0]);
 	close_pipe(pipefd);
 }
 
@@ -39,17 +41,20 @@ static void child_pipe(int *pipefd, int counter, int *fd, int ncmds)
 the text from stdin until reaching the delimiter
 using only read*/
 static void head_document(int *pipefd, char *delimiter){
-	char buffer[20];
-	
+	char *buffer;
+	int buffer_size;
 
+	buffer_size = 2 * ft_strlen(delimiter);
+	buffer = ft_calloc(buffer_size, sizeof(char));
 	close(pipefd[0]);
 	while (read(0, buffer, 20) > 0)
 	{
-		if (ft_strnstr(buffer, delimiter, 20) != 0)
+		if (ft_strnstr(buffer, delimiter, buffer_size) != 0)
 			break;
 		write(pipefd[1], buffer, 20);
 	}
 	close(pipefd[1]);
+	free(buffer);
 	exit(0);
 }
 
@@ -89,4 +94,3 @@ int	pipex(t_command *cmds, int ncmds, int *fd, char *delimiter)
 	}
 	return (0);
 }
-

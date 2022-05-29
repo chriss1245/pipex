@@ -28,6 +28,7 @@ int main(int nargs, char **vargs, char **env)
 			return(0);
 		delimiter = vargs[2];
 		cmds = command_parser(nargs - 1, vargs + 1, env);
+		fd[0] = 0;
 		fd[1] = open(vargs[nargs - 1], O_WRONLY | O_TRUNC);
 		pipex(cmds, nargs - 4, fd, delimiter);
 	}
@@ -38,9 +39,6 @@ int main(int nargs, char **vargs, char **env)
 		fd[1] = open(vargs[nargs - 1], O_WRONLY | O_TRUNC);
 		pipex(cmds, nargs - 3, fd, delimiter);
 	}
-	
-	
-	
 	close_pipe(fd);
 	return (0);
 }
