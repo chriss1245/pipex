@@ -37,6 +37,6 @@ typedef struct s_auxiliar
 
 char		*get_environ_val(char **env, char *var);
 t_command	*command_parser(int nargs, char **vargs, char **env);
-int			pipex(t_command *cmds, int nargs, int *fd);
+int			pipex(t_command *cmds, int nargs, int *fd, char *delimiter);
 int			close_pipe(int *pipefd);
 #endif

@@ -35,9 +35,28 @@ static void child_pipe(int *pipefd, int counter, int *fd, int ncmds)
 	close_pipe(pipefd);
 }
 
+/*this child process reads and seands using a pipe
+the text from stdin until reaching the delimiter
+using only read*/
+static void head_document(int *pipefd, char *delimiter){
+	char buffer[20];
+	
+
+	close(pipefd[0]);
+	while (read(0, buffer, 20) > 0)
+	{
+		if (ft_strnstr(buffer, delimiter, 20) != 0)
+			break;
+		write(pipefd[1], buffer, 20);
+	}
+	close(pipefd[1]);
+	exit(0);
+}
+
+
 /* Forks the child processes and pipes them to the main
 program */
-int	pipex(t_command *cmds, int ncmds, int *fd)
+int	pipex(t_command *cmds, int ncmds, int *fd, char *delimiter)
 {
 	int			i;
 	int			pipefd[2];
@@ -50,15 +69,24 @@ int	pipex(t_command *cmds, int ncmds, int *fd)
 		pid = fork();
 		if (pid == 0)
 		{
-			child_pipe(pipefd, i, fd, ncmds);
-			execve(cmds[i].cmd, cmds[i].vargs, cmds[i].env);
+			if (delimiter && i == 0)
+				head_document(pipefd, delimiter);
+			else
+			{
+				child_pipe(pipefd, i, fd, ncmds);
+				execve(cmds[i].cmd, cmds[i].vargs, cmds[i].env);
+			}
 		}
 		else
 		{
 			parent_pipe(pipefd);
 			waitpid(pid, NULL, 0);
-			i++;
+			if (delimiter && i == 0)
+				delimiter = 0;
+			else
+				i++;
 		}
 	}
 	return (0);
 }
+
