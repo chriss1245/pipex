@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmanzano <cmanzano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmanzano <cmanzano@student.42madrid.es>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 11:24:49 by cmanzano          #+#    #+#             */
-/*   Updated: 2022/05/28 18:05:13 by cmanzano         ###   ########.fr       */
+/*   Updated: 2022/05/30 12:56:55 by cmanzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,18 @@ int main(int nargs, char **vargs, char **env)
 	char		*delimiter;
 	
 	if (nargs < 5)
-		return (0);
+			exit_failure("", INV_ARGS);
+	
 
 	delimiter = 0;
 	if (ft_strnstr(vargs[1], "head_document", ft_strlen(vargs[1])) != 0)
 	{
 		if (nargs < 6)
-			return(0);
+			exit_failure("", INV_ARGS);
 		delimiter = vargs[2];
 		cmds = command_parser(nargs - 1, vargs + 1, env);
-		fd[0] = 0;
-		fd[1] = open(vargs[nargs - 1], O_WRONLY | O_TRUNC);
+		
+		fd[1] = open(vargs[nargs - 1], O_APPEND | O_TRUNC);
 		pipex(cmds, nargs - 4, fd, delimiter);
 	}
 	else

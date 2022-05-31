@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmanzano <cmanzano@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmanzano <cmanzano@student.42madrid.es>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/11 13:32:23 by cmanzano          #+#    #+#              #
-#    Updated: 2022/05/28 14:15:42 by cmanzano         ###   ########.fr        #
+#    Updated: 2022/05/30 13:12:55 by cmanzano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ AR_FLAGS = crs
 # COMPILER
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
+
 
 #FILENAME
 NAME =	pipex

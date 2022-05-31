@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmanzano <cmanzano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmanzano <cmanzano@student.42madrid.es>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 20:01:52 by cmanzano          #+#    #+#             */
-/*   Updated: 2022/05/28 16:17:00 by cmanzano         ###   ########.fr       */
+/*   Updated: 2022/05/30 13:11:15 by cmanzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,8 @@ t_command	*command_parser(int nargs, char **vargs, char **env)
 		if (!paths[aux.j])
 		{
 			deep_free(paths);
-			free_all(cmds, aux.i - 1);
-			perror(0);
-			return (0);
+			free_all(cmds, nargs - 3);
+			exit_failure("", CMD_NOT_FOUND);
 		}
 		aux.i++;
 	}
