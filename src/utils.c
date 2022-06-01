@@ -6,7 +6,7 @@
 /*   By: cmanzano <cmanzano@student.42madrid.es>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:20:00 by chris             #+#    #+#             */
-/*   Updated: 2022/05/30 13:13:47 by cmanzano         ###   ########.fr       */
+/*   Updated: 2022/06/01 17:35:16 by cmanzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ void	exit_failure(char *param, int err)
 			err == CMD_FAIL))
 		ft_putstr_fd(param, 2);
 	ft_putstr_fd("\n", 2);
-	system("leaks pipex");
 	exit(EXIT_FAILURE);
 }

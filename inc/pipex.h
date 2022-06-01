@@ -6,7 +6,7 @@
 /*   By: cmanzano <cmanzano@student.42madrid.es>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 19:59:19 by cmanzano          #+#    #+#             */
-/*   Updated: 2022/05/30 12:39:40 by cmanzano         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:50:42 by cmanzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,5 @@ t_command	*command_parser(int nargs, char **vargs, char **env);
 int			pipex(t_command *cmds, int nargs, int *fd, char *delimiter);
 int			close_pipe(int *pipefd);
 void		exit_failure(char *message, int status);
+void		free_all(t_command *cmds, int nargs);
 #endif
